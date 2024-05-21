@@ -34,17 +34,20 @@ INSTALLED_APPS = [
 
     # rest_framework
     'rest_framework',
+
+    # auth
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'dj_rest_auth',
     'dj_rest_auth.registration',
-
+    
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
 
     # my app
     'accounts',
+    'board',
 ]
 
 SITE_ID = 1
