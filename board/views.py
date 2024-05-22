@@ -1,21 +1,31 @@
 from django.shortcuts import render
-from .models import Post, Comment
+from .models import Post, Comment, Like
 from .serializers import PostListSerializer, PostDetailSerializer, CommentSerializer, PostCreateSerializer, PostCommentCreateSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import filters
+from rest_framework.pagination import PageNumberPagination
 
 # custom permission
 class IsOwner(BasePermission):
     def has_object_permission(self, request, view, obj):
         return obj.user == request.user
 
-
 # post
+class PostPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
 class PostListView(ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostListSerializer
+    pagination_class = PostPagination
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['created_at', 'likes_count']
+    ordering = '-created_at'
 
 class PostDetailView(RetrieveAPIView):
     queryset = Post.objects.all()
