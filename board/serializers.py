@@ -19,6 +19,13 @@ class PostDetailSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['id', 'title', 'content', 'user', 'likes_count']
 
+class PostCreateSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source='user.name', read_only=True)
+    class Meta:
+        model = Post
+        fields = ['id', 'title', 'content', 'created_at', 'user']
+        read_only_fields = ['id', 'created_at', 'user']
+
 # comment
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.username', read_only=True)

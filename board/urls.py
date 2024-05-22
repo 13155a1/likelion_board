@@ -3,7 +3,9 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('posts/', views.PostListView.as_view()),
-    path('posts/<int:pk>/', views.PostDetailView.as_view()),
-    path('posts/<int:post_id>/comments/', views.PostCommentsView.as_view(), name='post-comments'),
+    path('post-list/', views.PostListView.as_view()),
+    path('post-create/', views.PostCreateView.as_view()),
+    path('post-detail/<int:pk>/', views.PostDetailView.as_view()),
+    path('post-detail/<int:post_id>/comment-list/', views.PostCommentsView.as_view(), name='post-comments'),
+
 ]
