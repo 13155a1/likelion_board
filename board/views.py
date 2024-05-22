@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Post, Comment
-from .serializers import PostListSerializer, PostDetailSerializer, CommentSerializer, PostCreateSerializer
+from .serializers import PostListSerializer, PostDetailSerializer, CommentSerializer, PostCreateSerializer, PostCommentCreateSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -29,7 +29,6 @@ class PostCreateView(CreateAPIView):
         data = response.data
         data['message'] = "저장되었습니다"
         return Response(data, status=status.HTTP_201_CREATED)
-        return Response({"message": "저장되었습니다"}, status=status.HTTP_201_CREATED)
 
 # comment
 
@@ -39,3 +38,22 @@ class PostCommentsView(ListAPIView):
     def get_queryset(self):
         post_id = self.kwargs['post_id']
         return Comment.objects.filter(post_id=post_id)
+
+class PostCommentCreateView(CreateAPIView):
+    serializer_class = PostCommentCreateSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        post_id = self.kwargs['post_id']
+        return Comment.objects.filter(post_id=post_id)
+
+    def perform_create(self, serializer):
+        post_id = self.kwargs['post_id']
+        serializer.save(user=self.request.user, post_id=post_id)
+
+    def create(self, request, *args, **kwargs):
+        response = super().create(request, *args, **kwargs)
+        data = response.data
+        data['message'] = "저장되었습니다"
+        return Response(data, status=status.HTTP_201_CREATED)
+

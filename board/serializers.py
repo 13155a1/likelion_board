@@ -2,7 +2,6 @@ from rest_framework import serializers
 from .models import Post, Comment
 
 # post
-
 class PostListSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.name', read_only=True)
     likes_count = serializers.IntegerField(source='like.count', read_only=True)
@@ -28,8 +27,15 @@ class PostCreateSerializer(serializers.ModelSerializer):
 
 # comment
 class CommentSerializer(serializers.ModelSerializer):
-    user = serializers.CharField(source='user.username', read_only=True)
+    user = serializers.CharField(source='user.name', read_only=True)
 
     class Meta:
         model = Comment
         fields = ['id', 'content', 'created_at', 'user']
+
+class PostCommentCreateSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source='user.name', read_only=True)
+    class Meta:
+        model = Comment
+        fields = ['id', 'content', 'created_at', 'user']
+        read_only_fields = ['id', 'created_at', 'user']
