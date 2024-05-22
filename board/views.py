@@ -40,10 +40,21 @@ class PostUpdateView(UpdateAPIView):
     serializer_class = PostDetailSerializer
     permission_classes = [IsOwner]
 
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        data = response.data
+        data['message'] = "수정되었습니다."
+        return Response(data, status=status.HTTP_200_OK)
+
 class PostDestroyView(DestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostDetailSerializer
     permission_classes = [IsOwner]
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({"message": "삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
 
 # comment
 class PostCommentsView(ListAPIView):
