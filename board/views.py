@@ -39,6 +39,15 @@ class PostCommentsView(ListAPIView):
         post_id = self.kwargs['post_id']
         return Comment.objects.filter(post_id=post_id)
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        comment_count = queryset.count()
+        return Response({
+            'comments': serializer.data,
+            'total_comments': comment_count
+        }, status=status.HTTP_200_OK)
+
 class PostCommentCreateView(CreateAPIView):
     serializer_class = PostCommentCreateSerializer
     permission_classes = [IsAuthenticated]
