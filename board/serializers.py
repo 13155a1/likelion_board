@@ -5,10 +5,11 @@ from .models import Post, Comment
 class PostListSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.name', read_only=True)
     likes_count = serializers.IntegerField(source='like.count', read_only=True)
+    comments_count = serializers.IntegerField(source='comment.count', read_only=True)
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'created_at', 'user', 'likes_count']
+        fields = ['id', 'title', 'created_at', 'user', 'likes_count', 'comments_count']
 
 class PostDetailSerializer(serializers.ModelSerializer):
     user = serializers.CharField(source='user.name', read_only=True)

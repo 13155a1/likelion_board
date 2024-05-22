@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from .models import Post, Comment
 from .serializers import PostListSerializer, PostDetailSerializer, CommentSerializer, PostCreateSerializer, PostCommentCreateSerializer
-from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.response import Response
 from rest_framework import status
 
-# Post
+# custom permission
+class IsOwner(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user
 
+
+# post
 class PostListView(ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostListSerializer
@@ -30,8 +35,17 @@ class PostCreateView(CreateAPIView):
         data['message'] = "저장되었습니다"
         return Response(data, status=status.HTTP_201_CREATED)
 
-# comment
+class PostUpdateView(UpdateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostDetailSerializer
+    permission_classes = [IsOwner]
 
+class PostDestroyView(DestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostDetailSerializer
+    permission_classes = [IsOwner]
+
+# comment
 class PostCommentsView(ListAPIView):
     serializer_class = CommentSerializer
 
