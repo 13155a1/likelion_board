@@ -10,4 +10,7 @@ urlpatterns = [
     path('post-detail/<int:pk>/delete/', views.PostDestroyView.as_view()),
     path('post-detail/<int:post_id>/comment-list/', views.PostCommentsView.as_view()),
     path('post-detail/<int:post_id>/comment-create/', views.PostCommentCreateView.as_view()),
+    path('post-detail/<int:post_id>/like/', views.user_post_like_true_or_false),
+    path('post-detail/<int:post_id>/like/create/', views.create_like),
+    path('post-detail/<int:post_id>/like/delete/', views.delete_like),
 ]

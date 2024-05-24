@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from .models import Post, Comment, Like
-from .serializers import PostListSerializer, PostDetailSerializer, CommentSerializer, PostCreateSerializer, PostCommentCreateSerializer
+from .serializers import PostListSerializer, PostDetailSerializer, CommentSerializer, PostCreateSerializer, PostCommentCreateSerializer, LikeSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.permissions import IsAuthenticated, BasePermission
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.decorators import api_view
 
 # custom permission
 class IsOwner(BasePermission):
@@ -41,9 +42,10 @@ class PostCreateView(CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
+
         data = response.data
-        data['message'] = "저장되었습니다"
-        return Response(data, status=status.HTTP_201_CREATED)
+        message = "저장되었습니다"
+        return Response({"message": message, "data" : data}, status=status.HTTP_201_CREATED)
 
 class PostUpdateView(UpdateAPIView):
     queryset = Post.objects.all()
@@ -53,8 +55,8 @@ class PostUpdateView(UpdateAPIView):
     def update(self, request, *args, **kwargs):
         response = super().update(request, *args, **kwargs)
         data = response.data
-        data['message'] = "수정되었습니다."
-        return Response(data, status=status.HTTP_200_OK)
+        message = "수정되었습니다."
+        return Response({"message": message, "data" : data}, status=status.HTTP_200_OK)
 
 class PostDestroyView(DestroyAPIView):
     queryset = Post.objects.all()
@@ -98,6 +100,55 @@ class PostCommentCreateView(CreateAPIView):
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
         data = response.data
-        data['message'] = "저장되었습니다"
-        return Response(data, status=status.HTTP_201_CREATED)
+        message = "저장되었습니다"
+        return Response({"message": message, "data" : data}, status=status.HTTP_201_CREATED)
 
+@api_view(['GET'])
+def user_post_like_true_or_false(request, post_id):
+    user = request.user
+    post = Post.objects.get(id=post_id)
+
+    try: 
+        like = Like.objects.get(user=user, post=post)
+    except:
+        return Response({"like": False}, status=status.HTTP_200_OK)
+    
+    return Response({"like": True}, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def create_like(request, post_id):
+    user = request.user
+    post = Post.objects.get(id=post_id)
+
+    if Like.objects.filter(user=user, post=post).exists():
+        return Response({"error": "이미 좋아요가 존재합니다."}, status=status.HTTP_400_BAD_REQUEST)
+
+    like = Like(
+        user=user,
+        post=post
+    )
+    like.save()
+
+    like_serializer = LikeSerializer(like)
+
+    data = like_serializer.data
+    message = "저장되었습니다."
+
+    return Response({"message": message, "data" : data}, status=status.HTTP_201_CREATED)
+
+@api_view(['DELETE'])
+def delete_like(request, post_id):
+    user = request.user
+    post = Post.objects.get(id=post_id)
+
+    print(user.name)
+    print(post.title)
+
+    try: 
+        like = Like.objects.get(user=user, post=post)
+    except:
+        return Response({"error": "좋아요가 존재하지 않습니다."}, status=status.HTTP_400_BAD_REQUEST)
+    
+    like.delete()
+
+    return Response({"message": "삭제되었습니다."}, status=status.HTTP_204_NO_CONTENT)
