@@ -7,6 +7,9 @@
   <img src="https://github.com/13155a1/likelion_board/assets/128376848/c93abce5-da3e-4328-af95-7bdb6009d12d" alt="글쓰기 (1)" style="height: 350px;"/>
 </div>
 
+***주요 기능***
+- 게시글, 댓글, 좋아요 CRUD
+- dj-rest-auth 라이브러리를 이용한 회원가입 구현 (jwt 방식)
 
 ## 🔨 Tech Stack
 <div>
