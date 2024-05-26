@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import api_view
+from django.db.models import Count
 
 # custom permission
 class IsOwner(BasePermission):
@@ -25,8 +26,16 @@ class PostListView(ListAPIView):
     serializer_class = PostListSerializer
     pagination_class = PostPagination
     filter_backends = [filters.OrderingFilter]
-    ordering_fields = ['created_at', 'likes_count']
-    ordering = '-created_at'
+    
+    def get_queryset(self):
+        order_by = self.request.GET.get('order_by')
+        if order_by == 'likes':
+            posts = Post.objects.all().annotate(likes_count=Count('like')).order_by('-likes_count')
+        elif order_by == 'created_at':
+            posts = Post.objects.all().order_by('-created_at')
+        else:
+            posts = Post.objects.all()
+        return posts
 
 class PostDetailView(RetrieveAPIView):
     queryset = Post.objects.all()
