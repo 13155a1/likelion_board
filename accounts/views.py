@@ -5,5 +5,5 @@ from rest_framework.response import Response
 
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
-def test(request):
-    return Response("테스트!")
+def user_name(request):
+    return Response({"name": request.user.name})

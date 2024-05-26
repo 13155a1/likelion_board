@@ -5,5 +5,5 @@ from . import views
 urlpatterns = [
     path('', include('dj_rest_auth.urls')),
     path('registration/', include('dj_rest_auth.registration.urls')),
-    path('test/', views.test),
+    path('user-name/', views.user_name),
 ]
