@@ -5,6 +5,8 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from django.conf import settings
+from django.views.static import serve
+from django.urls import re_path
 
 router = routers.DefaultRouter()
 
@@ -26,6 +28,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('board/', include('board.urls')),
+
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root':settings.MEDIA_ROOT}),
 ]
 
 if settings.DEBUG:
