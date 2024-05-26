@@ -1,4 +1,5 @@
 ## 🦁 멋사 자유 게시판
+멋쟁이사자처럼 서강대학교 자유 게시판
 <div style="display: flex; flex-direction: row;">
   <img src="https://github.com/13155a1/likelion_board/assets/128376848/5ebf6908-65e5-406d-a624-8fff8b20bb2c" alt="로그인 후 메인화면 (1)" style="height: 500px;"/>
   <img src="https://github.com/13155a1/likelion_board/assets/128376848/1a6b4008-04b9-4091-bcfa-9585d31d4585" alt="로그인 전 메인화면 (2)" style="height: 500px;"/>
