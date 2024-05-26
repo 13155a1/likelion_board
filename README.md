@@ -25,3 +25,19 @@
 
 ## ✂️ ERD
 <img src="https://github.com/13155a1/likelion_board/assets/128376848/64aa4717-8519-4245-a18a-061ea20b37c0" style="width: 500px;"/>
+
+## 🎄 Rule
+``` 
+- docs: 문서 작성 및 수정 작업 (README, 템플릿 등)
+- feat: 새로운 기능 추가 작업
+- fix: 에러 및 버그 수정, 기능 수정 작업
+- HOTFIX: 긴급 수정
+- refactor: 코드 리팩토링 작업 (버그 수정이나 기능 추가 X)
+- rename: 네이밍 변경 (파일명, 변수명 등)
+- remove: 파일 및 코드 삭제
+- comment: 주석 추가
+- chore: 빌드 업무 및 패키지 매니저 수정 작업 등의 작업
+- merge: 다른 브랜치 머지 작업
+- test: 테스트 관련 작업
+- style: 코드 포맷팅
+```
