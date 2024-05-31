@@ -1,4 +1,4 @@
-## 🦁 멋사 자유 게시판
+### 🦁 멋사 자유 게시판
 멋쟁이사자처럼 서강대학교 자유 게시판
 <div style="display: flex; flex-direction: row;">
   <img src="https://github.com/13155a1/likelion_board/assets/128376848/5ebf6908-65e5-406d-a624-8fff8b20bb2c" alt="로그인 후 메인화면 (1)" style="height: 350px;"/>
@@ -10,7 +10,10 @@
 - 게시글, 댓글, 좋아요 CRUD
 - dj-rest-auth 라이브러리를 이용한 회원가입 구현 (jwt 방식)
 
-## 🔨 Tech Stack
+### 🔗 배포 링크
+https://12th-mutsa-community-complete.vercel.app/
+
+### 🔨 Tech Stack
 <div>
   <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white">
   <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">
@@ -21,10 +24,10 @@
   <img src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white">
 </div>
 
-## ✂️ ERD
+### ✂️ ERD
 <img src="https://github.com/13155a1/likelion_board/assets/128376848/64aa4717-8519-4245-a18a-061ea20b37c0" style="width: 500px;"/>
 
-## 🎄 Rule
+### 🎄 Rule
 ``` 
 - docs: 문서 작성 및 수정 작업 (README, 템플릿 등)
 - feat: 새로운 기능 추가 작업
